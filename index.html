@@ -2,40 +2,68 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Отзывник</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: var(--tg-theme-bg-color, #1a1a2e);
             color: var(--tg-theme-text-color, #ffffff);
             min-height: 100vh;
-            padding: 16px;
+            padding-bottom: 68px;
         }
+
+        .tabbar {
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            height: 60px;
+            background: var(--tg-theme-secondary-bg-color, #16213e);
+            display: flex;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            z-index: 100;
+        }
+
+        .tab {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            cursor: pointer;
+            opacity: 0.4;
+            font-size: 11px;
+            font-weight: 500;
+            transition: opacity 0.15s;
+            user-select: none;
+        }
+
+        .tab.active {
+            opacity: 1;
+            color: var(--tg-theme-button-color, #6c5ce7);
+        }
+
+        .tab-icon { font-size: 22px; line-height: 1; }
+
+        .page { display: none; padding: 16px; animation: fadein 0.15s ease; }
+        .page.active { display: block; }
+        @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
 
         .header {
             text-align: center;
-            padding: 20px 0 24px;
+            padding: 20px 0 20px;
         }
 
-        .header h1 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .header p {
-            font-size: 14px;
-            opacity: 0.6;
-        }
+        .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+        .header p { font-size: 14px; opacity: 0.5; }
 
         .search-box {
             display: flex;
             gap: 8px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .search-box input {
@@ -62,6 +90,8 @@
             font-weight: 600;
         }
 
+        .search-box button:active { opacity: 0.8; }
+
         .profile-card {
             background: var(--tg-theme-secondary-bg-color, #16213e);
             border-radius: 16px;
@@ -80,49 +110,31 @@
         }
 
         .avatar {
-            width: 56px;
-            height: 56px;
+            width: 56px; height: 56px;
             border-radius: 50%;
             background: var(--tg-theme-button-color, #6c5ce7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px; font-weight: 700;
             flex-shrink: 0;
         }
 
-        .profile-info h2 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 4px;
+        .avatar.large {
+            width: 76px; height: 76px;
+            font-size: 34px;
+            margin: 0 auto 14px;
         }
 
-        .stats {
-            display: flex;
-            gap: 16px;
-        }
+        .profile-info h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
 
-        .stat {
-            text-align: center;
-        }
-
+        .stats { display: flex; gap: 16px; }
+        .stat { text-align: center; }
         .stat-value {
             font-size: 20px;
             font-weight: 700;
             color: var(--tg-theme-button-color, #6c5ce7);
         }
-
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.6;
-        }
-
-        .stars {
-            color: #ffd700;
-            font-size: 16px;
-            margin-bottom: 2px;
-        }
+        .stat-label { font-size: 12px; opacity: 0.6; }
+        .stars-gold { color: #ffd700; }
 
         .reviews-list { display: flex; flex-direction: column; gap: 12px; }
 
@@ -145,40 +157,87 @@
             color: var(--tg-theme-button-color, #6c5ce7);
         }
 
-        .review-date {
-            font-size: 12px;
-            opacity: 0.5;
-        }
-
+        .review-date { font-size: 12px; opacity: 0.5; }
         .review-stars { color: #ffd700; font-size: 14px; margin-bottom: 8px; }
+        .review-text { font-size: 14px; line-height: 1.5; opacity: 0.9; word-break: break-word; }
 
-        .review-text {
-            font-size: 14px;
-            line-height: 1.5;
-            opacity: 0.9;
+        .own-profile-card {
+            background: var(--tg-theme-secondary-bg-color, #16213e);
+            border-radius: 16px;
+            padding: 24px 20px 20px;
+            text-align: center;
+            margin-bottom: 16px;
         }
+
+        .own-profile-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .own-profile-sub { font-size: 14px; opacity: 0.5; margin-bottom: 16px; }
+
+        .stats-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: var(--tg-theme-secondary-bg-color, #16213e);
+            border-radius: 14px;
+            padding: 14px 8px;
+            text-align: center;
+        }
+
+        .stat-card .val {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--tg-theme-button-color, #6c5ce7);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-card .lbl { font-size: 12px; opacity: 0.6; }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            opacity: 0.5;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin: 18px 0 10px;
+        }
+
+        .verified { color: var(--tg-theme-button-color, #6c5ce7); }
+
+        .top-item {
+            background: var(--tg-theme-secondary-bg-color, #16213e);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .medal { font-size: 26px; min-width: 34px; text-align: center; }
+        .top-info { flex: 1; min-width: 0; }
+        .top-name { font-weight: 600; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .top-sub { font-size: 13px; opacity: 0.5; margin-top: 3px; }
+        .top-score { font-size: 22px; font-weight: 700; color: var(--tg-theme-button-color, #6c5ce7); }
 
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
+            padding: 48px 20px;
             opacity: 0.5;
             display: none;
         }
 
         .empty-state.visible { display: block; }
-        .empty-state div { font-size: 48px; margin-bottom: 12px; }
+        .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
 
-        .loading {
-            text-align: center;
-            padding: 40px;
-            display: none;
-        }
-
+        .loading { text-align: center; padding: 48px; display: none; }
         .loading.visible { display: block; }
 
         .spinner {
-            width: 32px;
-            height: 32px;
+            width: 32px; height: 32px;
             border: 3px solid rgba(255,255,255,0.1);
             border-top-color: var(--tg-theme-button-color, #6c5ce7);
             border-radius: 50%;
@@ -187,69 +246,131 @@
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        .state-center {
+            text-align: center;
+            padding: 48px 20px;
+            opacity: 0.5;
+        }
+
+        .state-center .icon { font-size: 48px; display: block; margin-bottom: 12px; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>📋 Отзывник</h1>
-    <p>Поиск отзывов по юзернейму</p>
-</div>
-
-<div class="search-box">
-    <input type="text" id="usernameInput" placeholder="Введите юзернейм..." />
-    <button onclick="search()">🔍</button>
-</div>
-
-<div class="loading" id="loading">
-    <div class="spinner"></div>
-    <p>Загрузка...</p>
-</div>
-
-<div class="profile-card" id="profileCard">
-    <div class="profile-header">
-        <div class="avatar" id="avatar">?</div>
-        <div class="profile-info">
-            <h2 id="profileName">@username</h2>
-            <div class="stars" id="profileStars">☆☆☆☆☆</div>
+<!-- ПОИСК -->
+<div id="page-search" class="page active">
+    <div class="header">
+        <h1>📋 Отзывник</h1>
+        <p>Поиск отзывов по юзернейму</p>
+    </div>
+    <div class="search-box">
+        <input type="text" id="usernameInput" placeholder="Введите юзернейм..." autocomplete="off" autocorrect="off" autocapitalize="none">
+        <button onclick="doSearch()">🔍</button>
+    </div>
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Загрузка...</p>
+    </div>
+    <div class="profile-card" id="profileCard">
+        <div class="profile-header">
+            <div class="avatar" id="avatar">?</div>
+            <div class="profile-info">
+                <h2 id="profileName">@username</h2>
+                <div class="stars-gold" id="profileStars">☆☆☆☆☆</div>
+            </div>
+        </div>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="totalReviews">0</div>
+                <div class="stat-label">отзывов</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="avgRating">0</div>
+                <div class="stat-label">средняя оценка</div>
+            </div>
         </div>
     </div>
-    <div class="stats">
-        <div class="stat">
-            <div class="stat-value" id="totalReviews">0</div>
-            <div class="stat-label">отзывов</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value" id="avgRating">0</div>
-            <div class="stat-label">средняя оценка</div>
+    <div class="reviews-list" id="reviewsList"></div>
+    <div class="empty-state" id="emptyState">
+        <div class="icon">😶</div>
+        <p>Отзывов не найдено</p>
+    </div>
+</div>
+
+<!-- ПРОФИЛЬ -->
+<div id="page-profile" class="page">
+    <div id="profile-content">
+        <div class="state-center">
+            <span class="icon">⏳</span>Загружаем профиль...
         </div>
     </div>
 </div>
 
-<div class="reviews-list" id="reviewsList"></div>
+<!-- ТОП -->
+<div id="page-top" class="page">
+    <div class="header">
+        <h1>🏆 Топ</h1>
+        <p>Лучшие пользователи по рейтингу</p>
+    </div>
+    <div id="top-content">
+        <div class="state-center">
+            <span class="icon">⏳</span>Загружаем топ...
+        </div>
+    </div>
+</div>
 
-<div class="empty-state" id="emptyState">
-    <div>😶</div>
-    <p>Отзывов не найдено</p>
+<!-- ПАНЕЛЬ ВКЛАДОК -->
+<div class="tabbar">
+    <div class="tab active" id="tab-search" onclick="switchTab('search')">
+        <span class="tab-icon">🔍</span>Поиск
+    </div>
+    <div class="tab" id="tab-profile" onclick="switchTab('profile')">
+        <span class="tab-icon">👤</span>Профиль
+    </div>
+    <div class="tab" id="tab-top" onclick="switchTab('top')">
+        <span class="tab-icon">🏆</span>Топ
+    </div>
 </div>
 
 <script>
     const API = 'https://worker-production-acec.up.railway.app';
 
-    if (window.Telegram?.WebApp) {
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
+    const tg = window.Telegram?.WebApp;
+    if (tg) { tg.ready(); tg.expand(); }
+    const me = tg?.initDataUnsafe?.user || {};
+
+    function esc(s) {
+        return String(s ?? '')
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    const input = document.getElementById('usernameInput');
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') search(); });
-
-    function stars(rating) {
-        return '⭐'.repeat(rating) + '☆'.repeat(5 - rating);
+    function stars(r) {
+        r = Math.round(r || 0);
+        return '⭐'.repeat(r) + '☆'.repeat(Math.max(0, 5 - r));
     }
 
-    async function search() {
-        const username = input.value.trim().replace('@', '');
+    // ── Вкладки ──
+    let profileLoaded = false;
+    let topLoaded = false;
+
+    function switchTab(name) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.getElementById('page-' + name).classList.add('active');
+        document.getElementById('tab-' + name).classList.add('active');
+        if (name === 'profile' && !profileLoaded) loadProfile();
+        if (name === 'top' && !topLoaded) loadTop();
+    }
+
+    // ── Поиск ──
+    document.getElementById('usernameInput').addEventListener('keydown', e => {
+        if (e.key === 'Enter') doSearch();
+    });
+
+    async function doSearch() {
+        const username = document.getElementById('usernameInput').value.trim().replace('@', '');
         if (!username) return;
 
         document.getElementById('loading').classList.add('visible');
@@ -258,9 +379,8 @@
         document.getElementById('reviewsList').innerHTML = '';
 
         try {
-            const res = await fetch(`${API}/reviews/${username}`);
+            const res = await fetch(`${API}/reviews/${encodeURIComponent(username)}`);
             const data = await res.json();
-
             document.getElementById('loading').classList.remove('visible');
 
             if (!data.reviews || data.reviews.length === 0) {
@@ -268,33 +388,143 @@
                 return;
             }
 
-            // Profile card
             document.getElementById('avatar').textContent = username[0].toUpperCase();
-            document.getElementById('profileName').textContent = '@' + username;
+            document.getElementById('profileName').textContent = '@' + esc(username);
             document.getElementById('profileStars').textContent = stars(Math.round(data.avg_rating));
             document.getElementById('totalReviews').textContent = data.total;
             document.getElementById('avgRating').textContent = data.avg_rating;
             document.getElementById('profileCard').classList.add('visible');
 
-            // Reviews
             const list = document.getElementById('reviewsList');
             data.reviews.forEach(r => {
                 const card = document.createElement('div');
                 card.className = 'review-card';
                 card.innerHTML = `
                     <div class="review-header">
-                        <span class="review-author">@${r.author}</span>
-                        <span class="review-date">${r.date}</span>
+                        <span class="review-author">@${esc(r.author)}</span>
+                        <span class="review-date">${esc(r.date)}</span>
                     </div>
                     <div class="review-stars">${stars(r.rating)}</div>
-                    <div class="review-text">${r.text}</div>
+                    <div class="review-text">${esc(r.text)}</div>
                 `;
                 list.appendChild(card);
             });
 
-        } catch (e) {
+        } catch {
             document.getElementById('loading').classList.remove('visible');
             document.getElementById('emptyState').classList.add('visible');
+        }
+    }
+
+    // ── Профиль ──
+    async function loadProfile() {
+        const username = me.username;
+        if (!username) {
+            document.getElementById('profile-content').innerHTML = `
+                <div class="state-center">
+                    <span class="icon">😶</span>
+                    У вас не задан username в Telegram
+                </div>`;
+            profileLoaded = true;
+            return;
+        }
+
+        try {
+            const [pRes, rRes] = await Promise.all([
+                fetch(`${API}/api/profile/${username}`),
+                fetch(`${API}/reviews/${username}`)
+            ]);
+            const p = await pRes.json();
+            const rd = await rRes.json();
+
+            const badge = p.is_verified ? ' <span class="verified">✅</span>' : '';
+            const fullName = [esc(me.first_name || ''), esc(me.last_name || '')].filter(Boolean).join(' ');
+
+            let html = `
+                <div class="own-profile-card">
+                    <div class="avatar large">${esc((me.first_name || '?')[0].toUpperCase())}</div>
+                    <div class="own-profile-name">@${esc(username)}${badge}</div>
+                    ${fullName ? `<div class="own-profile-sub">${fullName}</div>` : '<div class="own-profile-sub">&nbsp;</div>'}
+                </div>
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="val">${p.reviews_received}</div>
+                        <div class="lbl">Отзывов</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="val">${p.avg_rating > 0 ? p.avg_rating : '—'}</div>
+                        <div class="lbl">Рейтинг</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="val">${p.reviews_written}</div>
+                        <div class="lbl">Написано</div>
+                    </div>
+                </div>`;
+
+            if (rd.reviews?.length) {
+                html += `<div class="section-title">Отзывы обо мне</div>`;
+                rd.reviews.forEach(r => {
+                    html += `
+                        <div class="review-card">
+                            <div class="review-header">
+                                <span class="review-author">@${esc(r.author)}</span>
+                                <span class="review-date">${esc(r.date)}</span>
+                            </div>
+                            <div class="review-stars">${stars(r.rating)}</div>
+                            <div class="review-text">${esc(r.text)}</div>
+                        </div>`;
+                });
+            } else {
+                html += `<div class="state-center" style="padding-top:24px"><span class="icon">📭</span>Отзывов пока нет</div>`;
+            }
+
+            document.getElementById('profile-content').innerHTML = html;
+            profileLoaded = true;
+
+        } catch {
+            document.getElementById('profile-content').innerHTML = `
+                <div class="state-center"><span class="icon">⚠️</span>Не удалось загрузить профиль</div>`;
+        }
+    }
+
+    // ── Топ ──
+    const MEDALS = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
+
+    async function loadTop() {
+        try {
+            const res = await fetch(`${API}/api/top`);
+            const data = await res.json();
+
+            if (!data.top?.length) {
+                document.getElementById('top-content').innerHTML = `
+                    <div class="state-center">
+                        <span class="icon">😶</span>
+                        Пока недостаточно данных.<br>Нужно минимум 3 отзыва.
+                    </div>`;
+                topLoaded = true;
+                return;
+            }
+
+            let html = '';
+            data.top.forEach((u, i) => {
+                const badge = u.is_verified ? ' ✅' : '';
+                html += `
+                    <div class="top-item">
+                        <span class="medal">${MEDALS[i] ?? (i+1)+'.'}  </span>
+                        <div class="top-info">
+                            <div class="top-name">@${esc(u.target_username)}${badge}</div>
+                            <div class="top-sub stars-gold">${stars(u.avg_rating)} · ${u.review_count} отзывов</div>
+                        </div>
+                        <div class="top-score">${u.avg_rating}</div>
+                    </div>`;
+            });
+
+            document.getElementById('top-content').innerHTML = html;
+            topLoaded = true;
+
+        } catch {
+            document.getElementById('top-content').innerHTML = `
+                <div class="state-center"><span class="icon">⚠️</span>Не удалось загрузить топ</div>`;
         }
     }
 </script>
