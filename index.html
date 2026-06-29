@@ -41,201 +41,164 @@
             user-select: none;
         }
 
-        .tab.active {
-            opacity: 1;
-            color: var(--tg-theme-button-color, #6c5ce7);
-        }
-
+        .tab.active { opacity: 1; color: var(--tg-theme-button-color, #6c5ce7); }
+        .tab.hidden { display: none; }
         .tab-icon { font-size: 22px; line-height: 1; }
 
         .page { display: none; padding: 16px; animation: fadein 0.15s ease; }
         .page.active { display: block; }
         @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
 
-        .header {
-            text-align: center;
-            padding: 20px 0 20px;
-        }
-
+        .header { text-align: center; padding: 20px 0 20px; }
         .header h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
         .header p { font-size: 14px; opacity: 0.5; }
 
-        .search-box {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
+        /* Search */
+        .search-box { display: flex; gap: 8px; margin-bottom: 20px; }
         .search-box input {
-            flex: 1;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: none;
+            flex: 1; padding: 12px 16px; border-radius: 12px; border: none;
             background: var(--tg-theme-secondary-bg-color, #16213e);
-            color: var(--tg-theme-text-color, #ffffff);
-            font-size: 16px;
-            outline: none;
+            color: var(--tg-theme-text-color, #ffffff); font-size: 16px; outline: none;
         }
-
         .search-box input::placeholder { opacity: 0.5; }
-
         .search-box button {
-            padding: 12px 20px;
-            border-radius: 12px;
-            border: none;
+            padding: 12px 20px; border-radius: 12px; border: none;
             background: var(--tg-theme-button-color, #6c5ce7);
             color: var(--tg-theme-button-text-color, #ffffff);
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: 600;
+            font-size: 16px; cursor: pointer; font-weight: 600;
         }
-
         .search-box button:active { opacity: 0.8; }
 
+        /* Profile card (search result) */
         .profile-card {
             background: var(--tg-theme-secondary-bg-color, #16213e);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 16px;
-            display: none;
+            border-radius: 16px; padding: 20px; margin-bottom: 16px; display: none;
         }
-
         .profile-card.visible { display: block; }
-
-        .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-
+        .profile-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
         .avatar {
-            width: 56px; height: 56px;
-            border-radius: 50%;
+            width: 56px; height: 56px; border-radius: 50%;
             background: var(--tg-theme-button-color, #6c5ce7);
             display: flex; align-items: center; justify-content: center;
-            font-size: 24px; font-weight: 700;
-            flex-shrink: 0;
+            font-size: 24px; font-weight: 700; flex-shrink: 0;
         }
-
-        .avatar.large {
-            width: 76px; height: 76px;
-            font-size: 34px;
-            margin: 0 auto 14px;
-        }
-
+        .avatar.large { width: 76px; height: 76px; font-size: 34px; margin: 0 auto 14px; }
         .profile-info h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
-
         .stats { display: flex; gap: 16px; }
         .stat { text-align: center; }
-        .stat-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--tg-theme-button-color, #6c5ce7);
-        }
+        .stat-value { font-size: 20px; font-weight: 700; color: var(--tg-theme-button-color, #6c5ce7); }
         .stat-label { font-size: 12px; opacity: 0.6; }
         .stars-gold { color: #ffd700; }
 
+        /* Reviews */
         .reviews-list { display: flex; flex-direction: column; gap: 12px; }
-
         .review-card {
             background: var(--tg-theme-secondary-bg-color, #16213e);
-            border-radius: 14px;
-            padding: 16px;
+            border-radius: 14px; padding: 16px;
         }
-
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .review-author {
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--tg-theme-button-color, #6c5ce7);
-        }
-
+        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .review-author { font-weight: 600; font-size: 14px; color: var(--tg-theme-button-color, #6c5ce7); }
         .review-date { font-size: 12px; opacity: 0.5; }
         .review-stars { color: #ffd700; font-size: 14px; margin-bottom: 8px; }
         .review-text { font-size: 14px; line-height: 1.5; opacity: 0.9; word-break: break-word; }
 
+        /* Own profile */
         .own-profile-card {
             background: var(--tg-theme-secondary-bg-color, #16213e);
-            border-radius: 16px;
-            padding: 24px 20px 20px;
-            text-align: center;
-            margin-bottom: 16px;
+            border-radius: 16px; padding: 24px 20px 20px; text-align: center; margin-bottom: 16px;
         }
-
         .own-profile-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
         .own-profile-sub { font-size: 14px; opacity: 0.5; margin-bottom: 16px; }
-
-        .stats-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
+        .stats-row { display: flex; gap: 10px; margin-bottom: 16px; }
         .stat-card {
             flex: 1;
             background: var(--tg-theme-secondary-bg-color, #16213e);
-            border-radius: 14px;
-            padding: 14px 8px;
-            text-align: center;
+            border-radius: 14px; padding: 14px 8px; text-align: center;
         }
-
         .stat-card .val {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--tg-theme-button-color, #6c5ce7);
-            line-height: 1;
-            margin-bottom: 4px;
+            font-size: 24px; font-weight: 700;
+            color: var(--tg-theme-button-color, #6c5ce7); line-height: 1; margin-bottom: 4px;
         }
-
         .stat-card .lbl { font-size: 12px; opacity: 0.6; }
-
         .section-title {
-            font-size: 13px;
-            font-weight: 600;
-            opacity: 0.5;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            margin: 18px 0 10px;
+            font-size: 13px; font-weight: 600; opacity: 0.5;
+            text-transform: uppercase; letter-spacing: 0.6px; margin: 18px 0 10px;
         }
-
         .verified { color: var(--tg-theme-button-color, #6c5ce7); }
 
+        /* Top */
         .top-item {
             background: var(--tg-theme-secondary-bg-color, #16213e);
-            border-radius: 14px;
-            padding: 14px 16px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            border-radius: 14px; padding: 14px 16px; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 12px;
         }
-
         .medal { font-size: 26px; min-width: 34px; text-align: center; }
         .top-info { flex: 1; min-width: 0; }
         .top-name { font-weight: 600; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .top-sub { font-size: 13px; opacity: 0.5; margin-top: 3px; }
         .top-score { font-size: 22px; font-weight: 700; color: var(--tg-theme-button-color, #6c5ce7); }
 
-        .empty-state {
-            text-align: center;
-            padding: 48px 20px;
-            opacity: 0.5;
-            display: none;
+        /* Admin */
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
         }
+        .admin-stat-card {
+            background: var(--tg-theme-secondary-bg-color, #16213e);
+            border-radius: 14px; padding: 14px 12px; text-align: center;
+        }
+        .admin-stat-icon { font-size: 22px; margin-bottom: 6px; }
+        .admin-stat-val { font-size: 22px; font-weight: 700; color: var(--tg-theme-button-color, #6c5ce7); line-height: 1; }
+        .admin-stat-lbl { font-size: 11px; opacity: 0.6; margin-top: 3px; }
 
+        .user-item {
+            background: var(--tg-theme-secondary-bg-color, #16213e);
+            border-radius: 14px; padding: 12px 16px; margin-bottom: 8px;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .user-avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--tg-theme-button-color, #6c5ce7);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; font-weight: 700; flex-shrink: 0;
+        }
+        .user-info { flex: 1; min-width: 0; }
+        .user-name { font-weight: 600; font-size: 15px; }
+        .user-sub { font-size: 12px; opacity: 0.5; margin-top: 2px; }
+        .user-badges { font-size: 13px; }
+
+        .pagination {
+            display: flex; align-items: center; justify-content: center;
+            gap: 12px; margin-top: 16px;
+        }
+        .page-btn {
+            background: var(--tg-theme-secondary-bg-color, #16213e);
+            border: none; border-radius: 10px; padding: 10px 20px;
+            color: var(--tg-theme-text-color, #fff);
+            font-size: 15px; cursor: pointer; font-weight: 600;
+        }
+        .page-btn:disabled { opacity: 0.3; cursor: default; }
+        .page-btn:active:not(:disabled) { opacity: 0.7; }
+        .page-info { font-size: 14px; opacity: 0.6; }
+
+        .admin-search {
+            margin-bottom: 12px;
+        }
+        .admin-search input {
+            width: 100%; padding: 11px 16px; border-radius: 12px; border: none;
+            background: var(--tg-theme-secondary-bg-color, #16213e);
+            color: var(--tg-theme-text-color, #fff); font-size: 15px; outline: none;
+        }
+        .admin-search input::placeholder { opacity: 0.5; }
+
+        /* States */
+        .empty-state { text-align: center; padding: 48px 20px; opacity: 0.5; display: none; }
         .empty-state.visible { display: block; }
         .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
-
         .loading { text-align: center; padding: 48px; display: none; }
         .loading.visible { display: block; }
-
         .spinner {
             width: 32px; height: 32px;
             border: 3px solid rgba(255,255,255,0.1);
@@ -244,15 +207,8 @@
             animation: spin 0.8s linear infinite;
             margin: 0 auto 12px;
         }
-
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        .state-center {
-            text-align: center;
-            padding: 48px 20px;
-            opacity: 0.5;
-        }
-
+        .state-center { text-align: center; padding: 48px 20px; opacity: 0.5; }
         .state-center .icon { font-size: 48px; display: block; margin-bottom: 12px; }
     </style>
 </head>
@@ -265,7 +221,8 @@
         <p>Поиск отзывов по юзернейму</p>
     </div>
     <div class="search-box">
-        <input type="text" id="usernameInput" placeholder="Введите юзернейм..." autocomplete="off" autocorrect="off" autocapitalize="none">
+        <input type="text" id="usernameInput" placeholder="Введите юзернейм..."
+               autocomplete="off" autocorrect="off" autocapitalize="none">
         <button onclick="doSearch()">🔍</button>
     </div>
     <div class="loading" id="loading">
@@ -301,9 +258,7 @@
 <!-- ПРОФИЛЬ -->
 <div id="page-profile" class="page">
     <div id="profile-content">
-        <div class="state-center">
-            <span class="icon">⏳</span>Загружаем профиль...
-        </div>
+        <div class="state-center"><span class="icon">⏳</span>Загружаем профиль...</div>
     </div>
 </div>
 
@@ -314,9 +269,34 @@
         <p>Лучшие пользователи по рейтингу</p>
     </div>
     <div id="top-content">
-        <div class="state-center">
-            <span class="icon">⏳</span>Загружаем топ...
-        </div>
+        <div class="state-center"><span class="icon">⏳</span>Загружаем топ...</div>
+    </div>
+</div>
+
+<!-- АДМИН -->
+<div id="page-admin" class="page">
+    <div class="header">
+        <h1>🔧 Админ</h1>
+        <p>Панель управления</p>
+    </div>
+
+    <div class="section-title">📊 Статистика</div>
+    <div class="admin-stats-grid" id="admin-stats">
+        <div class="state-center" style="grid-column:span 2"><span class="icon">⏳</span></div>
+    </div>
+
+    <div class="section-title">👥 Пользователи</div>
+    <div class="admin-search">
+        <input type="text" id="admin-search-input" placeholder="Фильтр по юзернейму..."
+               autocomplete="off" autocorrect="off" autocapitalize="none">
+    </div>
+    <div id="admin-users-list">
+        <div class="state-center"><span class="icon">⏳</span>Загружаем...</div>
+    </div>
+    <div class="pagination" id="admin-pagination" style="display:none">
+        <button class="page-btn" id="btn-prev" onclick="loadAdminUsers(adminPage - 1)">◀️</button>
+        <span class="page-info" id="page-info">1 / 1</span>
+        <button class="page-btn" id="btn-next" onclick="loadAdminUsers(adminPage + 1)">▶️</button>
     </div>
 </div>
 
@@ -330,6 +310,9 @@
     </div>
     <div class="tab" id="tab-top" onclick="switchTab('top')">
         <span class="tab-icon">🏆</span>Топ
+    </div>
+    <div class="tab hidden" id="tab-admin" onclick="switchTab('admin')">
+        <span class="tab-icon">🔧</span>Админ
     </div>
 </div>
 
@@ -351,9 +334,22 @@
         return '⭐'.repeat(r) + '☆'.repeat(Math.max(0, 5 - r));
     }
 
-    // ── Вкладки ──
+    // ── Проверка админа ──────────────────────────────────
+    async function checkAdmin() {
+        if (!me.id) return;
+        try {
+            const res = await fetch(`${API}/api/admin/check/${me.id}`);
+            const data = await res.json();
+            if (data.is_admin) {
+                document.getElementById('tab-admin').classList.remove('hidden');
+            }
+        } catch {}
+    }
+
+    // ── Вкладки ──────────────────────────────────────────
     let profileLoaded = false;
     let topLoaded = false;
+    let adminLoaded = false;
 
     function switchTab(name) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -362,9 +358,14 @@
         document.getElementById('tab-' + name).classList.add('active');
         if (name === 'profile' && !profileLoaded) loadProfile();
         if (name === 'top' && !topLoaded) loadTop();
+        if (name === 'admin' && !adminLoaded) {
+            loadAdminStats();
+            loadAdminUsers(1);
+            adminLoaded = true;
+        }
     }
 
-    // ── Поиск ──
+    // ── Поиск ────────────────────────────────────────────
     document.getElementById('usernameInput').addEventListener('keydown', e => {
         if (e.key === 'Enter') doSearch();
     });
@@ -383,7 +384,7 @@
             const data = await res.json();
             document.getElementById('loading').classList.remove('visible');
 
-            if (!data.reviews || data.reviews.length === 0) {
+            if (!data.reviews?.length) {
                 document.getElementById('emptyState').classList.add('visible');
                 return;
             }
@@ -405,30 +406,24 @@
                         <span class="review-date">${esc(r.date)}</span>
                     </div>
                     <div class="review-stars">${stars(r.rating)}</div>
-                    <div class="review-text">${esc(r.text)}</div>
-                `;
+                    <div class="review-text">${esc(r.text)}</div>`;
                 list.appendChild(card);
             });
-
         } catch {
             document.getElementById('loading').classList.remove('visible');
             document.getElementById('emptyState').classList.add('visible');
         }
     }
 
-    // ── Профиль ──
+    // ── Профиль ──────────────────────────────────────────
     async function loadProfile() {
         const username = me.username;
         if (!username) {
             document.getElementById('profile-content').innerHTML = `
-                <div class="state-center">
-                    <span class="icon">😶</span>
-                    У вас не задан username в Telegram
-                </div>`;
+                <div class="state-center"><span class="icon">😶</span>У вас не задан username в Telegram</div>`;
             profileLoaded = true;
             return;
         }
-
         try {
             const [pRes, rRes] = await Promise.all([
                 fetch(`${API}/api/profile/${username}`),
@@ -436,7 +431,6 @@
             ]);
             const p = await pRes.json();
             const rd = await rRes.json();
-
             const badge = p.is_verified ? ' <span class="verified">✅</span>' : '';
             const fullName = [esc(me.first_name || ''), esc(me.last_name || '')].filter(Boolean).join(' ');
 
@@ -447,18 +441,9 @@
                     ${fullName ? `<div class="own-profile-sub">${fullName}</div>` : '<div class="own-profile-sub">&nbsp;</div>'}
                 </div>
                 <div class="stats-row">
-                    <div class="stat-card">
-                        <div class="val">${p.reviews_received}</div>
-                        <div class="lbl">Отзывов</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="val">${p.avg_rating > 0 ? p.avg_rating : '—'}</div>
-                        <div class="lbl">Рейтинг</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="val">${p.reviews_written}</div>
-                        <div class="lbl">Написано</div>
-                    </div>
+                    <div class="stat-card"><div class="val">${p.reviews_received}</div><div class="lbl">Отзывов</div></div>
+                    <div class="stat-card"><div class="val">${p.avg_rating > 0 ? p.avg_rating : '—'}</div><div class="lbl">Рейтинг</div></div>
+                    <div class="stat-card"><div class="val">${p.reviews_written}</div><div class="lbl">Написано</div></div>
                 </div>`;
 
             if (rd.reviews?.length) {
@@ -480,37 +465,31 @@
 
             document.getElementById('profile-content').innerHTML = html;
             profileLoaded = true;
-
         } catch {
-            document.getElementById('profile-content').innerHTML = `
-                <div class="state-center"><span class="icon">⚠️</span>Не удалось загрузить профиль</div>`;
+            document.getElementById('profile-content').innerHTML =
+                `<div class="state-center"><span class="icon">⚠️</span>Не удалось загрузить профиль</div>`;
         }
     }
 
-    // ── Топ ──
+    // ── Топ ──────────────────────────────────────────────
     const MEDALS = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
 
     async function loadTop() {
         try {
             const res = await fetch(`${API}/api/top`);
             const data = await res.json();
-
             if (!data.top?.length) {
-                document.getElementById('top-content').innerHTML = `
-                    <div class="state-center">
-                        <span class="icon">😶</span>
-                        Пока недостаточно данных.<br>Нужно минимум 3 отзыва.
-                    </div>`;
+                document.getElementById('top-content').innerHTML =
+                    `<div class="state-center"><span class="icon">😶</span>Пока недостаточно данных.<br>Нужно минимум 3 отзыва.</div>`;
                 topLoaded = true;
                 return;
             }
-
             let html = '';
             data.top.forEach((u, i) => {
                 const badge = u.is_verified ? ' ✅' : '';
                 html += `
                     <div class="top-item">
-                        <span class="medal">${MEDALS[i] ?? (i+1)+'.'}  </span>
+                        <span class="medal">${MEDALS[i] ?? (i+1)+'.'}</span>
                         <div class="top-info">
                             <div class="top-name">@${esc(u.target_username)}${badge}</div>
                             <div class="top-sub stars-gold">${stars(u.avg_rating)} · ${u.review_count} отзывов</div>
@@ -518,15 +497,140 @@
                         <div class="top-score">${u.avg_rating}</div>
                     </div>`;
             });
-
             document.getElementById('top-content').innerHTML = html;
             topLoaded = true;
-
         } catch {
-            document.getElementById('top-content').innerHTML = `
-                <div class="state-center"><span class="icon">⚠️</span>Не удалось загрузить топ</div>`;
+            document.getElementById('top-content').innerHTML =
+                `<div class="state-center"><span class="icon">⚠️</span>Не удалось загрузить топ</div>`;
         }
     }
+
+    // ── Админ: статистика ─────────────────────────────────
+    async function loadAdminStats() {
+        try {
+            const res = await fetch(`${API}/api/admin/stats?user_id=${me.id}`);
+            const s = await res.json();
+            document.getElementById('admin-stats').innerHTML = `
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon">👥</div>
+                    <div class="admin-stat-val">${s.total}</div>
+                    <div class="admin-stat-lbl">Всего пользователей</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon">🆕</div>
+                    <div class="admin-stat-val">${s.new_today}</div>
+                    <div class="admin-stat-lbl">Новых сегодня</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon">📅</div>
+                    <div class="admin-stat-val">${s.new_week}</div>
+                    <div class="admin-stat-lbl">Новых за неделю</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon">✅</div>
+                    <div class="admin-stat-val">${s.verified}</div>
+                    <div class="admin-stat-lbl">Верифицировано</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon">🚫</div>
+                    <div class="admin-stat-val">${s.banned}</div>
+                    <div class="admin-stat-lbl">Забанено</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon">📋</div>
+                    <div class="admin-stat-val">${s.reviews_approved}</div>
+                    <div class="admin-stat-lbl">Одобрено отзывов</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon">⏳</div>
+                    <div class="admin-stat-val">${s.reviews_pending}</div>
+                    <div class="admin-stat-lbl">На модерации</div>
+                </div>
+                <div class="admin-stat-card">
+                    <div class="admin-stat-icon">🎫</div>
+                    <div class="admin-stat-val">${s.tickets_open}</div>
+                    <div class="admin-stat-lbl">Открытых тикетов</div>
+                </div>`;
+        } catch {
+            document.getElementById('admin-stats').innerHTML =
+                `<div class="state-center" style="grid-column:span 2"><span class="icon">⚠️</span>Ошибка загрузки</div>`;
+        }
+    }
+
+    // ── Админ: пользователи ───────────────────────────────
+    let adminPage = 1;
+    let adminTotalPages = 1;
+    let allAdminUsers = [];
+
+    async function loadAdminUsers(page) {
+        if (page < 1 || page > adminTotalPages) return;
+        adminPage = page;
+
+        document.getElementById('admin-users-list').innerHTML =
+            `<div class="state-center"><span class="icon">⏳</span></div>`;
+
+        try {
+            const res = await fetch(`${API}/api/admin/users?user_id=${me.id}&page=${page}`);
+            const data = await res.json();
+            allAdminUsers = data.users;
+            adminTotalPages = data.total_pages;
+
+            renderAdminUsers(allAdminUsers);
+
+            document.getElementById('page-info').textContent = `${data.page} / ${data.total_pages}`;
+            document.getElementById('btn-prev').disabled = page <= 1;
+            document.getElementById('btn-next').disabled = page >= data.total_pages;
+            document.getElementById('admin-pagination').style.display =
+                data.total_pages > 1 ? 'flex' : 'none';
+
+        } catch {
+            document.getElementById('admin-users-list').innerHTML =
+                `<div class="state-center"><span class="icon">⚠️</span>Ошибка загрузки</div>`;
+        }
+    }
+
+    function renderAdminUsers(users) {
+        if (!users.length) {
+            document.getElementById('admin-users-list').innerHTML =
+                `<div class="state-center"><span class="icon">😶</span>Ничего не найдено</div>`;
+            return;
+        }
+        let html = '';
+        users.forEach(u => {
+            const name = u.username ? `@${esc(u.username)}` : `ID ${u.id}`;
+            const fullName = esc(u.full_name || '');
+            const badges = (u.is_verified ? ' ✅' : '') + (u.is_banned ? ' 🚫' : '');
+            const initial = (u.username || u.full_name || '?')[0].toUpperCase();
+            html += `
+                <div class="user-item">
+                    <div class="user-avatar">${esc(initial)}</div>
+                    <div class="user-info">
+                        <div class="user-name">${name}${badges}</div>
+                        <div class="user-sub">${fullName ? fullName + ' · ' : ''}${esc(u.created_at)}</div>
+                    </div>
+                </div>`;
+        });
+        document.getElementById('admin-users-list').innerHTML = html;
+    }
+
+    // Фильтр по юзернейму (клиентский)
+    document.getElementById('admin-search-input').addEventListener('input', function() {
+        const q = this.value.trim().toLowerCase().replace('@', '');
+        if (!q) {
+            renderAdminUsers(allAdminUsers);
+            return;
+        }
+        const filtered = allAdminUsers.filter(u =>
+            (u.username || '').toLowerCase().includes(q) ||
+            (u.full_name || '').toLowerCase().includes(q)
+        );
+        renderAdminUsers(filtered);
+    });
+
+    // ── Инициализация ─────────────────────────────────────
+    checkAdmin();
+    loadProfile();
 </script>
 </body>
 </html>
+
