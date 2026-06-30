@@ -24,10 +24,12 @@
             display: flex;
             border-top: 1px solid rgba(255,255,255,0.08);
             z-index: 100;
+            overflow-x: auto;
         }
 
         .tab {
             flex: 1;
+            min-width: 60px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -35,7 +37,7 @@
             gap: 3px;
             cursor: pointer;
             opacity: 0.4;
-            font-size: 11px;
+            font-size: 10.5px;
             font-weight: 500;
             transition: opacity 0.15s;
             user-select: none;
@@ -43,7 +45,7 @@
 
         .tab.active { opacity: 1; color: var(--tg-theme-button-color, #6c5ce7); }
         .tab.hidden { display: none; }
-        .tab-icon { font-size: 22px; line-height: 1; }
+        .tab-icon { font-size: 20px; line-height: 1; }
 
         .page { display: none; padding: 16px; animation: fadein 0.15s ease; }
         .page.active { display: block; }
@@ -125,6 +127,7 @@
             text-transform: uppercase; letter-spacing: 0.6px; margin: 18px 0 10px;
         }
         .verified { color: var(--tg-theme-button-color, #6c5ce7); }
+        .verified-paid { color: #ffd700; }
 
         /* Top */
         .top-item {
@@ -139,12 +142,7 @@
         .top-score { font-size: 22px; font-weight: 700; color: var(--tg-theme-button-color, #6c5ce7); }
 
         /* Admin */
-        .admin-stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
+        .admin-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .admin-stat-card {
             background: var(--tg-theme-secondary-bg-color, #16213e);
             border-radius: 14px; padding: 14px 12px; text-align: center;
@@ -167,12 +165,8 @@
         .user-info { flex: 1; min-width: 0; }
         .user-name { font-weight: 600; font-size: 15px; }
         .user-sub { font-size: 12px; opacity: 0.5; margin-top: 2px; }
-        .user-badges { font-size: 13px; }
 
-        .pagination {
-            display: flex; align-items: center; justify-content: center;
-            gap: 12px; margin-top: 16px;
-        }
+        .pagination { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 16px; }
         .page-btn {
             background: var(--tg-theme-secondary-bg-color, #16213e);
             border: none; border-radius: 10px; padding: 10px 20px;
@@ -183,15 +177,63 @@
         .page-btn:active:not(:disabled) { opacity: 0.7; }
         .page-info { font-size: 14px; opacity: 0.6; }
 
-        .admin-search {
-            margin-bottom: 12px;
-        }
+        .admin-search { margin-bottom: 12px; }
         .admin-search input {
             width: 100%; padding: 11px 16px; border-radius: 12px; border: none;
             background: var(--tg-theme-secondary-bg-color, #16213e);
             color: var(--tg-theme-text-color, #fff); font-size: 15px; outline: none;
         }
         .admin-search input::placeholder { opacity: 0.5; }
+
+        /* Ads */
+        .ad-categories {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+        }
+        .ad-cat-chip {
+            flex-shrink: 0;
+            padding: 9px 16px;
+            border-radius: 20px;
+            background: var(--tg-theme-secondary-bg-color, #16213e);
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0.6;
+            cursor: pointer;
+            white-space: nowrap;
+            user-select: none;
+        }
+        .ad-cat-chip.active {
+            opacity: 1;
+            background: var(--tg-theme-button-color, #6c5ce7);
+            color: var(--tg-theme-button-text-color, #fff);
+        }
+        .ad-card {
+            background: var(--tg-theme-secondary-bg-color, #16213e);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .ad-cat-badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--tg-theme-button-color, #6c5ce7);
+            margin-bottom: 8px;
+        }
+        .ad-title { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+        .ad-author { font-size: 13px; opacity: 0.6; margin-bottom: 8px; }
+        .ad-text { font-size: 14px; line-height: 1.5; opacity: 0.9; margin-bottom: 10px; word-break: break-word; }
+        .ad-footer { display: flex; justify-content: space-between; align-items: center; }
+        .ad-price { font-size: 16px; font-weight: 700; color: #ffd700; }
+        .ad-contact {
+            font-size: 13px;
+            color: var(--tg-theme-button-color, #6c5ce7);
+            font-weight: 600;
+        }
+        .ad-date { font-size: 12px; opacity: 0.4; margin-top: 8px; }
 
         /* States */
         .empty-state { text-align: center; padding: 48px 20px; opacity: 0.5; display: none; }
@@ -273,6 +315,24 @@
     </div>
 </div>
 
+<!-- ОБЪЯВЛЕНИЯ -->
+<div id="page-ads" class="page">
+    <div class="header">
+        <h1>📌 Объявления</h1>
+        <p>Доска объявлений сообщества</p>
+    </div>
+    <div class="ad-categories">
+        <div class="ad-cat-chip active" data-cat="" onclick="selectAdCategory(this, '')">Все</div>
+        <div class="ad-cat-chip" data-cat="sell" onclick="selectAdCategory(this, 'sell')">📦 Продам</div>
+        <div class="ad-cat-chip" data-cat="buy" onclick="selectAdCategory(this, 'buy')">🛒 Куплю</div>
+        <div class="ad-cat-chip" data-cat="services" onclick="selectAdCategory(this, 'services')">🔧 Услуги</div>
+        <div class="ad-cat-chip" data-cat="other" onclick="selectAdCategory(this, 'other')">📋 Другое</div>
+    </div>
+    <div id="ads-content">
+        <div class="state-center"><span class="icon">⏳</span>Загружаем объявления...</div>
+    </div>
+</div>
+
 <!-- АДМИН -->
 <div id="page-admin" class="page">
     <div class="header">
@@ -311,6 +371,9 @@
     <div class="tab" id="tab-top" onclick="switchTab('top')">
         <span class="tab-icon">🏆</span>Топ
     </div>
+    <div class="tab" id="tab-ads" onclick="switchTab('ads')">
+        <span class="tab-icon">📌</span>Объявл.
+    </div>
     <div class="tab hidden" id="tab-admin" onclick="switchTab('admin')">
         <span class="tab-icon">🔧</span>Админ
     </div>
@@ -334,6 +397,12 @@
         return '⭐'.repeat(r) + '☆'.repeat(Math.max(0, 5 - r));
     }
 
+    function badgeHtml(p) {
+        if (p.is_paid_verified) return ' <span class="verified-paid">💎</span>';
+        if (p.is_verified) return ' <span class="verified">✅</span>';
+        return '';
+    }
+
     // ── Проверка админа ──────────────────────────────────
     async function checkAdmin() {
         if (!me.id) return;
@@ -350,6 +419,7 @@
     let profileLoaded = false;
     let topLoaded = false;
     let adminLoaded = false;
+    let adsLoaded = false;
 
     function switchTab(name) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -358,6 +428,7 @@
         document.getElementById('tab-' + name).classList.add('active');
         if (name === 'profile' && !profileLoaded) loadProfile();
         if (name === 'top' && !topLoaded) loadTop();
+        if (name === 'ads' && !adsLoaded) { loadAds(''); adsLoaded = true; }
         if (name === 'admin' && !adminLoaded) {
             loadAdminStats();
             loadAdminUsers(1);
@@ -431,7 +502,7 @@
             ]);
             const p = await pRes.json();
             const rd = await rRes.json();
-            const badge = p.is_verified ? ' <span class="verified">✅</span>' : '';
+            const badge = badgeHtml(p);
             const fullName = [esc(me.first_name || ''), esc(me.last_name || '')].filter(Boolean).join(' ');
 
             let html = `
@@ -505,52 +576,63 @@
         }
     }
 
+    // ── Объявления ─────────────────────────────────────────
+    function selectAdCategory(el, cat) {
+        document.querySelectorAll('.ad-cat-chip').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+        loadAds(cat);
+    }
+
+    async function loadAds(category) {
+        document.getElementById('ads-content').innerHTML =
+            `<div class="state-center"><span class="icon">⏳</span>Загружаем...</div>`;
+        try {
+            const url = category ? `${API}/api/ads?category=${category}` : `${API}/api/ads`;
+            const res = await fetch(url);
+            const data = await res.json();
+
+            if (!data.ads?.length) {
+                document.getElementById('ads-content').innerHTML =
+                    `<div class="state-center"><span class="icon">😶</span>В этой категории пока нет объявлений</div>`;
+                return;
+            }
+
+            let html = '';
+            data.ads.forEach(ad => {
+                html += `
+                    <div class="ad-card">
+                        <div class="ad-cat-badge">${esc(ad.category_label)}</div>
+                        <div class="ad-title">${esc(ad.title)}</div>
+                        <div class="ad-author">👤 @${esc(ad.username)}</div>
+                        <div class="ad-text">${esc(ad.text)}</div>
+                        <div class="ad-footer">
+                            ${ad.price ? `<span class="ad-price">💰 ${esc(ad.price)}</span>` : '<span></span>'}
+                            ${ad.contact ? `<span class="ad-contact">${esc(ad.contact)}</span>` : ''}
+                        </div>
+                        <div class="ad-date">📅 ${esc(ad.created_at)}</div>
+                    </div>`;
+            });
+            document.getElementById('ads-content').innerHTML = html;
+        } catch {
+            document.getElementById('ads-content').innerHTML =
+                `<div class="state-center"><span class="icon">⚠️</span>Не удалось загрузить объявления</div>`;
+        }
+    }
+
     // ── Админ: статистика ─────────────────────────────────
     async function loadAdminStats() {
         try {
             const res = await fetch(`${API}/api/admin/stats?user_id=${me.id}`);
             const s = await res.json();
             document.getElementById('admin-stats').innerHTML = `
-                <div class="admin-stat-card">
-                    <div class="admin-stat-icon">👥</div>
-                    <div class="admin-stat-val">${s.total}</div>
-                    <div class="admin-stat-lbl">Всего пользователей</div>
-                </div>
-                <div class="admin-stat-card">
-                    <div class="admin-stat-icon">🆕</div>
-                    <div class="admin-stat-val">${s.new_today}</div>
-                    <div class="admin-stat-lbl">Новых сегодня</div>
-                </div>
-                <div class="admin-stat-card">
-                    <div class="admin-stat-icon">📅</div>
-                    <div class="admin-stat-val">${s.new_week}</div>
-                    <div class="admin-stat-lbl">Новых за неделю</div>
-                </div>
-                <div class="admin-stat-card">
-                    <div class="admin-stat-icon">✅</div>
-                    <div class="admin-stat-val">${s.verified}</div>
-                    <div class="admin-stat-lbl">Верифицировано</div>
-                </div>
-                <div class="admin-stat-card">
-                    <div class="admin-stat-icon">🚫</div>
-                    <div class="admin-stat-val">${s.banned}</div>
-                    <div class="admin-stat-lbl">Забанено</div>
-                </div>
-                <div class="admin-stat-card">
-                    <div class="admin-stat-icon">📋</div>
-                    <div class="admin-stat-val">${s.reviews_approved}</div>
-                    <div class="admin-stat-lbl">Одобрено отзывов</div>
-                </div>
-                <div class="admin-stat-card">
-                    <div class="admin-stat-icon">⏳</div>
-                    <div class="admin-stat-val">${s.reviews_pending}</div>
-                    <div class="admin-stat-lbl">На модерации</div>
-                </div>
-                <div class="admin-stat-card">
-                    <div class="admin-stat-icon">🎫</div>
-                    <div class="admin-stat-val">${s.tickets_open}</div>
-                    <div class="admin-stat-lbl">Открытых тикетов</div>
-                </div>`;
+                <div class="admin-stat-card"><div class="admin-stat-icon">👥</div><div class="admin-stat-val">${s.total}</div><div class="admin-stat-lbl">Всего пользователей</div></div>
+                <div class="admin-stat-card"><div class="admin-stat-icon">🆕</div><div class="admin-stat-val">${s.new_today}</div><div class="admin-stat-lbl">Новых сегодня</div></div>
+                <div class="admin-stat-card"><div class="admin-stat-icon">📅</div><div class="admin-stat-val">${s.new_week}</div><div class="admin-stat-lbl">Новых за неделю</div></div>
+                <div class="admin-stat-card"><div class="admin-stat-icon">✅</div><div class="admin-stat-val">${s.verified}</div><div class="admin-stat-lbl">Верифицировано</div></div>
+                <div class="admin-stat-card"><div class="admin-stat-icon">🚫</div><div class="admin-stat-val">${s.banned}</div><div class="admin-stat-lbl">Забанено</div></div>
+                <div class="admin-stat-card"><div class="admin-stat-icon">📋</div><div class="admin-stat-val">${s.reviews_approved}</div><div class="admin-stat-lbl">Одобрено отзывов</div></div>
+                <div class="admin-stat-card"><div class="admin-stat-icon">⏳</div><div class="admin-stat-val">${s.reviews_pending}</div><div class="admin-stat-lbl">На модерации</div></div>
+                <div class="admin-stat-card"><div class="admin-stat-icon">🎫</div><div class="admin-stat-val">${s.tickets_open}</div><div class="admin-stat-lbl">Открытых тикетов</div></div>`;
         } catch {
             document.getElementById('admin-stats').innerHTML =
                 `<div class="state-center" style="grid-column:span 2"><span class="icon">⚠️</span>Ошибка загрузки</div>`;
@@ -565,24 +647,17 @@
     async function loadAdminUsers(page) {
         if (page < 1 || page > adminTotalPages) return;
         adminPage = page;
-
-        document.getElementById('admin-users-list').innerHTML =
-            `<div class="state-center"><span class="icon">⏳</span></div>`;
-
+        document.getElementById('admin-users-list').innerHTML = `<div class="state-center"><span class="icon">⏳</span></div>`;
         try {
             const res = await fetch(`${API}/api/admin/users?user_id=${me.id}&page=${page}`);
             const data = await res.json();
             allAdminUsers = data.users;
             adminTotalPages = data.total_pages;
-
             renderAdminUsers(allAdminUsers);
-
             document.getElementById('page-info').textContent = `${data.page} / ${data.total_pages}`;
             document.getElementById('btn-prev').disabled = page <= 1;
             document.getElementById('btn-next').disabled = page >= data.total_pages;
-            document.getElementById('admin-pagination').style.display =
-                data.total_pages > 1 ? 'flex' : 'none';
-
+            document.getElementById('admin-pagination').style.display = data.total_pages > 1 ? 'flex' : 'none';
         } catch {
             document.getElementById('admin-users-list').innerHTML =
                 `<div class="state-center"><span class="icon">⚠️</span>Ошибка загрузки</div>`;
@@ -613,13 +688,9 @@
         document.getElementById('admin-users-list').innerHTML = html;
     }
 
-    // Фильтр по юзернейму (клиентский)
     document.getElementById('admin-search-input').addEventListener('input', function() {
         const q = this.value.trim().toLowerCase().replace('@', '');
-        if (!q) {
-            renderAdminUsers(allAdminUsers);
-            return;
-        }
+        if (!q) { renderAdminUsers(allAdminUsers); return; }
         const filtered = allAdminUsers.filter(u =>
             (u.username || '').toLowerCase().includes(q) ||
             (u.full_name || '').toLowerCase().includes(q)
@@ -633,4 +704,3 @@
 </script>
 </body>
 </html>
-
